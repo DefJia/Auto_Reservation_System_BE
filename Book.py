@@ -19,10 +19,20 @@ class Book:
     @staticmethod
     def index(first, second=-1):
         if second == -1:
-            hash = cfg.get('Account', 'common_hash').split(',').index(first)
-            username = cfg.get('Account', 'commonu').split(',')[hash]
-            password = cfg.get('Account', 'commonp').split(',')[hash]
-            return username, password
+            if type(first) == str:
+                hash = cfg.get('Account', 'common_hash').split(',').index(first)
+                username = cfg.get('Account', 'commonu').split(',')[hash]
+                password = cfg.get('Account', 'commonp').split(',')[hash]
+                return username, password
+            else:
+                zombieu = cfg.get('Account', 'zombieu').split(',')
+                zombiep = cfg.get('Account', 'zombiep').split(',')
+                if first < 0: first = 0
+                elif first >= min(len(zombieu), len(zombiep)):
+                    first = min(len(zombieu), len(zombiep))
+                username = zombieu[first]
+                password = zombiep[first]
+                return username, password
         else:
             return first, second
 
