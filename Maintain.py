@@ -12,14 +12,13 @@ def detect(num=-1):
     """
     user = cfg.get('Account', 'zombieu').split(',')
     pwd = cfg.get('Account', 'zombiep').split(',')
-    if len(user) != len(pwd):
-        return -1
+    if len(user) != len(pwd): return -1
+    if num > len(user): num = len(user)
     loop = (len(user) if num == -1 else num)
     flag = list()
     for i in range(loop):
         res = Book(user[i], pwd[i]).login()
-        if res == {}:
-            flag.append(i)
+        if res == {}: flag.append(i)
     cal = loop - len(flag)
     if len(flag) > 0:
         for elem in reversed(flag):
@@ -34,4 +33,4 @@ def detect(num=-1):
 
 if __name__ == '__main__':
     a = detect()
-    print(a)
+    print("测试%d个僵尸帐号完毕" % a)
