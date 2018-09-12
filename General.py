@@ -10,9 +10,10 @@ cfg.read('.config.ini')
 
 class General:
     @staticmethod
-    def del_reneges():
+    def del_reneges(para=-1):
+        target_group = 'common' if type(para) == int and para == -1 else 'zombie'
         a = Manage().login()
-        lst = cfg.get('Account', 'commonu').split(',')
+        lst = cfg.get('Account', target_group+'u').split(',')
         for elem in lst:
             a.del_renege(elem)
 
@@ -35,6 +36,5 @@ class General:
 
 
 if __name__ == '__main__':
-    General.transfer()
-    # crawl_book()
-    # del_reneges()
+    # General.transfer()
+    General.del_reneges(1)
