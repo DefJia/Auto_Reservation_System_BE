@@ -1,0 +1,6 @@
+.config.ini*
+data.db
+.idea/
+test.py
+__pycache__/
+

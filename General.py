@@ -37,4 +37,4 @@ class General:
 
 if __name__ == '__main__':
     # General.transfer()
-    General.del_reneges(1)
+    General.del_reneges()

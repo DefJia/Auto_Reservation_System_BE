@@ -122,5 +122,5 @@ class Book:
 
 if __name__ == '__main__':
     test = Book('ljq').login()
-    test = test.prepare(4, 148, 0)
+    test = test.prepare(311, 5, 1)
     test.book()
