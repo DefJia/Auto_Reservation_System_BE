@@ -1,4 +1,3 @@
-# from General import General
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
 from configparser import ConfigParser
@@ -18,6 +17,11 @@ class Book:
     """
     @staticmethod
     def index(first, second=-1):
+        """
+        :param first:
+        :param second:
+        :return:
+        """
         if second == -1:
             if type(first) == str:
                 hash = cfg.get('Account', 'common_hash').split(',').index(first)

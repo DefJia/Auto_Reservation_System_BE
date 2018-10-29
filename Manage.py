@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from configparser import ConfigParser
 from collections import OrderedDict
 from datetime import *
+import sqlite3
 
 cfg = ConfigParser()
 cfg.read('.config.ini')
@@ -118,6 +119,53 @@ class Manage:
         return string
 
 
+class Crawl:
+    @staticmethod
+    def crawl_user():
+        a = Manage().login()
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        for i in range(69, 2047):
+            info = a.query_info('user', page=i)
+            for elem in info:
+                sql = "insert into user(sid, cid, name, type, department) values ("
+                for field in elem:
+                    sql += "'" + elem[field] + "',"
+                sql = sql[:-1] + ')'
+                try:
+                    c.execute(sql)
+                except sqlite3.IntegrityError:
+                    print(sql)
+                except sqlite3.OperationalError:
+                    print(sql)
+            conn.commit()
+            print("第%d页完成爬取" % i)
+        conn.close()
+
+    @staticmethod
+    def crawl_book():
+        a = Manage().login()
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        for i in range(3270, 4550):
+            info = a.query_info('book', page=i)
+            for elem in info:
+                sql = "insert into book(bid, sid, name, room, start, end, status, book_time) values ("
+                for field in elem:
+                    sql += "'" + elem[field] + "',"
+                sql = sql[:-1] + ')'
+                # print(elem)
+                try:
+                    c.execute(sql)
+                except sqlite3.IntegrityError:
+                    print(sql)
+                except sqlite3.OperationalError:
+                    print(sql)
+            conn.commit()
+            print("第%d页完成爬取" % i)
+        conn.close()
+
+
 def rm_space(string):
     string = string.replace('\r', '').replace('\n', '').replace('\t', '').replace(' ', '')
     return string
@@ -125,10 +173,9 @@ def rm_space(string):
 
 if __name__ == '__main__':
     a = Manage().login()
-    a.del_book(1120153332, 0)
+    # a.del_book(1120153332, 0)
     # a.query_info('book')
-    '''
+    lst = cfg['Account']['commonu'].split(',')
     for sid in lst:
         n = a.del_renege(sid)
-        print("Delect %d logs of %d successfully" % (n, sid))
-    '''
+
