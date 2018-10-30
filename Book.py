@@ -5,7 +5,7 @@ from configparser import ConfigParser
 from collections import OrderedDict
 
 cfg = ConfigParser()
-cfg.read('.config.ini')
+cfg.read('.config.ini', encoding='utf8')
 
 init_url = 'http://seat.lib.bit.edu.cn'
 login_url = 'http://login.bit.edu.cn/cas/login'
