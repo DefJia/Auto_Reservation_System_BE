@@ -119,7 +119,10 @@ class Book:
             server_time = datetime.datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
             current_time = server_time - datetime.timedelta(hours = 1)
             print("%s %s" % (str(current_time), msg))
-            return 1
+            if '预约失败' in msg:
+                return 2
+            else:
+                return 1
         except KeyError:
             return -2
 
