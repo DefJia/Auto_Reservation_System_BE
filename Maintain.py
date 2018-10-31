@@ -1,4 +1,4 @@
-from Reconstitution.Book import *
+from Book import Book
 from configparser import ConfigParser
 
 cfg = ConfigParser()

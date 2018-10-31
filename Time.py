@@ -23,11 +23,12 @@ class Time:
         :return:
         """
         tmp = 'book' if type == 0 else 'pick'
-        hour = int(self.cfg.get('time', tmp + '_hour'))
-        minute = int(self.cfg.get('time', tmp + '_minute'))
-        prepare_seconds = int(self.cfg.get('time', 'advanced_second_to_prepare'))
-        interval_seconds = int(self.cfg.get('time', 'interval_second_to_calibrate'))
-        start_seconds = int(self.cfg.get('time', 'advanced_second_to_book'))
+        target_time = self.cfg.get('Time', tmp + '_time').split(':')
+        hour = int(target_time[0])
+        minute = int(target_time[1])
+        prepare_seconds = self.cfg.getint('Time', 'advanced_second_to_prepare')
+        interval_seconds = self.cfg.getint('Time', 'interval_second_to_calibrate')
+        start_seconds = self.cfg.getint('Time', 'advanced_second_to_book')
         while True:
             if self.cal_seconds(0, (hour, minute), prepare_seconds):
                 while not self.cal_seconds(1, (hour, minute), start_seconds):
