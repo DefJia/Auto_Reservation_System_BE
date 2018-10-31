@@ -16,7 +16,7 @@ if __name__ == '__main__':
     b = Book(target_name).login().prepare(target_room, target_seat, 1 - type)
     flag = 0
     cnt = 0
-    max_try_times = cfg.getint('Time', 'max_try_times')
+    max_try_times = cfg.getint('_Auto_book', 'max_try_times')
     while flag != 1 and cnt < max_try_times:
         flag = b.book()
         print(datetime.datetime.now())

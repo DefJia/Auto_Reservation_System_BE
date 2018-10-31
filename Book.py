@@ -13,9 +13,9 @@ class Book:
         """
         self.cfg = ConfigParser()
         self.cfg.read('.config.ini', encoding='utf8')
-        init_url = self.cfg.get('Site_url', 'init_url')
-        login_url = self.cfg.get('Site_url', 'login_url')
-        seat_url = init_url + self.cfg.get('Site_url', 'seat_url')
+        self.init_url = self.cfg.get('Site_url', 'init_url')
+        self.login_url = self.cfg.get('Site_url', 'login_url')
+        self.seat_url = self.init_url + self.cfg.get('Site_url', 'seat_url')
         self.username, self.password = self.index(username, password)
         # self.password = password
         # self.username = username
