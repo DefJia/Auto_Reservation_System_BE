@@ -30,23 +30,17 @@
 
 ### 自动预约 
 
-按照.config.example.ini的示例和注释，修改或填写.config.ini/中_Auto_book和Time（不建议修改）下的参数；同时还要确保Account中至少有一个账号信息。
+按照.config.example.ini的示例和注释，修改或填写.config.ini中_Auto_book和Time（不建议修改）下的参数；同时还要确保Account中至少有一个账号信息。
 
 ### 模拟预约
 
-未完成
+按照.config.example.ini的示例和注释，修改或填写.config.ini中_Book_seat下的参数；同时还要确保Account中有对应的账号信息。
 
 ### 捡漏座位
 
-未完成
-
 ### 删除违约（高级功能）
 
-未完成
-
 ### 预约过户（高级功能）
-
-未完成
 
 ## 代码更新
 
@@ -69,6 +63,7 @@
 ## 注意事项
 
 - 请勿擅自修改代码内容
+- 尽量每次使用前进行代码更新
 
 ------
 
