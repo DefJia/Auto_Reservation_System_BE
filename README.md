@@ -10,8 +10,8 @@
 
 ## 文档
 
-- [使用手册](Usage.md)
-- [开发者文档](For_Developers.md)
+- [使用手册](Doc/Usage.md)
+- [开发者文档](Doc/For_Developers.md)
 
 ## 项目进度
 

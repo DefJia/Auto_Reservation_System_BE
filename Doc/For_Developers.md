@@ -4,7 +4,7 @@
 
 ## 核心模块
 
-- [Book.py](Book.py)
+- [Book.py](../Book.py)
 
   - Book (预约相关)
 
@@ -24,13 +24,13 @@
 
       预约
 
-- [General.py](General.py)
+- [General.py](../General.py)
 
   - General
 
     通用的方法。
 
-- [Maintain.py](Maintain.py)
+- [Maintain.py](../Maintain.py)
 
   - detect()
 
