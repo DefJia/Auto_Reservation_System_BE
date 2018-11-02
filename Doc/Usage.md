@@ -61,14 +61,39 @@
    - 使用Git
 
      - 使用命令行（Git Bash）
-     - `https://github.com/DefJia/Auto_Reservation_System_BE.git`
+
+       - 在文件管理器中切换到目标文件夹，在空白处点击右键，打开Git Bash
+       - `git clone https://github.com/DefJia/Auto_Reservation_System_BE.git`
+
      - 使用图形化界面（Git GUI）
 
-2. 用管理员身份打开“[命令提示符](https://zh.wikihow.com/%E6%89%93%E5%BC%80Windows%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6)”，并切换到项目根目录下，运行命令：
+       - 在文件管理器的空白处点击右键，打开Git GUI
 
-   `pip3 install -r requirements.txt`
+       - 点击Clone Existing Repository
 
-3. 复制.config.example.ini为.config.ini，并按照文件内的说明添加相关个性化信息。
+       - 在Source Location中输入
+
+         `https://github.com/DefJia/Auto_Reservation_System_BE.git`
+
+       - 在Target Directory中选中目标文件夹
+
+       - 点击Clone
+
+2. 安装Python依赖库
+
+   - 以管理员身份打开“[命令提示符](https://zh.wikihow.com/%E6%89%93%E5%BC%80Windows%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6)”
+
+   - 切换到项目根目录下
+
+     - `cd C:\xxx\path\xxx\`
+
+   - 安装依赖
+
+     - `pip3 install -r requirements.txt`
+
+       若提示pip3不可执行，则尝试去掉“3”
+
+3. 复制.config.example.ini为.config.ini，并按照文件内的说明在.config.ini中修改或添加相关个性化信息。
 
 ## 使用方法
 
@@ -88,11 +113,11 @@
 
 ### 预约过户（内测功能）
 
-### 维护账号列表（内测列表）
+### 维护账号列表（内测功能）
 
 ## 代码更新
 
-### 使用Github Desktop
+### 使用GitHub Desktop
 
 ### 使用Git GUI
 
