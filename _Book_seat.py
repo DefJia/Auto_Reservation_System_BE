@@ -10,5 +10,6 @@ if __name__ == '__main__':
     target_room = cfg.get('_Book_seat', 'target_room')
     target_seat = cfg.getint('_Book_seat', 'target_seat')
     date = cfg.getint('_Book_seat', 'date')
+    if date != 0: date = 1
     book = book.prepare(target_room, target_seat, date)
     book.book()
