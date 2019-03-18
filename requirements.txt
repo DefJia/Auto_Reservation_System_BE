@@ -3,3 +3,5 @@ requests
 html5lib
 configparser
 datetime
+pillow
+wxpy
