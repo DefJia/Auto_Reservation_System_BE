@@ -89,6 +89,7 @@ class Book:
             d = json.loads(r.text[1:])
         try:
             ts = d['data']['_hash_']['expire']
+            # TypeError: 'NoneType' object is not subscriptable
             msg = d['msg']
             server_time = datetime.datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
             current_time = server_time - datetime.timedelta(hours = 1)
@@ -98,6 +99,8 @@ class Book:
             else:
                 return 1
         except KeyError:
+            return -2
+        except TypeError:
             return -2
 
     def index(self, first, second=-1):
