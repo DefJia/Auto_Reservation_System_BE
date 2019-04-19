@@ -17,6 +17,7 @@ class Query:
         """
         self.cfg = ConfigParser()
         self.cfg.read('.config.ini', encoding='utf8')
+        self.room_id = room_id
         self.area_nos = self.cfg.get('Index', 'area_no').split(',')
         self.room_ids = self.cfg.get('Index', 'room_id').split(',')
         index = self.room_ids.index(str(room_id))
@@ -45,11 +46,13 @@ class Query:
                 data = d['data']['list']
                 for elem in data:
                     if elem['status'] == 1:
-                        room_id = int(elem['name'][:3])
+                        # 可预约
                         if len(elem['name']) == 5:
                             # 形如311-A
+                            room_id = int(elem['name'][:3])
                             seat_no = ord(elem['name'][-1]) - 64
                         else:
+                            room_id = self.room_id
                             seat_no = int(elem['name'])
                         self.res.append((room_id, seat_no))
                 return self.res
@@ -58,5 +61,5 @@ class Query:
 
 
 if __name__ == '__main__':
-    cur = Query(1, '311')
+    cur = Query(0, 'ns1')
     print(cur.get_list())

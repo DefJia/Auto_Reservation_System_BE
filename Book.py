@@ -26,6 +26,8 @@ class Book:
         self.session = requests.session()
         self.url = ''
         self.post = dict()
+        # Preparations
+        self.login()
 
     def login(self):
         """
@@ -130,10 +132,5 @@ class Book:
 
 
 if __name__ == '__main__':
-    test = Book('jzh').login()
-    while True:
-        for a in (311, 308, 208, 211):
-            for b in range(1, 10):
-                test = test.prepare(a, b, 0)
-                test.book()
-        time.sleep(10)
+    test = Book('jzh')
+    test.book('ns1', 1, 1)

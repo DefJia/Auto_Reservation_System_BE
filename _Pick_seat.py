@@ -1,6 +1,7 @@
 from Book import Book
 from Query import Query
 import time
+from datetime import datetime
 from configparser import ConfigParser
 
 cfg = ConfigParser()
@@ -23,4 +24,6 @@ if __name__ == '__main__':
                     account.prepare(elem[0], elem[1], date)
                     account.book()
                     del target_users[0]
-        time.sleep(sleep_second)
+            cur += 1
+            print('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
+            time.sleep(sleep_second)
