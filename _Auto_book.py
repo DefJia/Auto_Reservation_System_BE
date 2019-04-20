@@ -15,7 +15,7 @@ if __name__ == '__main__':
     target_room = cfg.get('_Auto_book', 'target_room')
     target_seat = cfg.getint('_Auto_book', 'target_seat')
     date = 0 if type in (1, 2) else 1
-    b = Book(target_name).login().prepare(target_room, target_seat, date)
+    b = Book(target_name).prepare(target_room, target_seat, date)
     flag = 0  # 是否预约成功
     cnt = 0  # 发送请求次数
     max_try_times = cfg.getint('_Auto_book', 'max_try_times')

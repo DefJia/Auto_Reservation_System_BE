@@ -1,6 +1,12 @@
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
 from configparser import ConfigParser
+from General import General
+
+
+configs = General.get_config()
+cfg_main = configs[0]
+cfg_advanced = configs[1]
 
 
 class Book:
@@ -11,8 +17,7 @@ class Book:
         """
             Description here.
         """
-        self.cfg = ConfigParser()
-        self.cfg.read('.config.ini', encoding='utf8')
+        self.cfg = cfg_main
         self.init_url = self.cfg.get('Site_url', 'init_url')
         self.login_url = self.cfg.get('Site_url', 'login_url')
         self.seat_url = self.init_url + self.cfg.get('Site_url', 'seat_url')
