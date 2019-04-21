@@ -1,6 +1,12 @@
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
 from configparser import ConfigParser
+from General import General
+
+
+configs = General.get_config()
+cfg_main = configs[0]
+cfg_advanced = configs[1]
 
 
 class Book:
@@ -11,17 +17,22 @@ class Book:
         """
             Description here.
         """
-        self.cfg = ConfigParser()
-        self.cfg.read('.config.ini', encoding='utf8')
+        self.cfg = cfg_main
         self.init_url = self.cfg.get('Site_url', 'init_url')
         self.login_url = self.cfg.get('Site_url', 'login_url')
         self.seat_url = self.init_url + self.cfg.get('Site_url', 'seat_url')
+        # Get urls
+        self.room_ids = self.cfg.get('Index', 'room_id').split(',')
+        self.area_nos = self.cfg.get('Index', 'area_no').split(',')
+        self.start_nos = self.cfg.get('Index', 'start_no').split(',')
+        self.room_list = self.cfg.get('Index', 'room_list').split(',')
+        # Get indexes
         self.username, self.password = self.index(username, password)
-        # self.password = password
-        # self.username = username
         self.session = requests.session()
         self.url = ''
         self.post = dict()
+        # Preparations
+        self.login()
 
     def login(self):
         """
@@ -58,21 +69,20 @@ class Book:
         :param date: 0 -> today, 1 -> tomorrow
         :return: -1 -> wrong input, 1 -> run properly
         """
+        """
         who_in = [3, 4, 5, 6, 8, 9, 11, 12, 13, 14, 16, 17, 20, 22, 23, 24, 25, 27, 28, 29, 30, 32, 33, 34]
         item_no = dict()
-        item_no['ns1'] = {'area_no': 4, 'seat_amount': 55, 'start_no': 655}
+        item_no[1] = {'area_no': 4, 'seat_amount': 55, 'start_no': 655}
         item_no['311'] = {'area_no': 17, 'seat_amount': 9, 'start_no': 960}
         item_no['308'] = {'area_no': 17, 'seat_amount': 9, 'start_no': 951}
-        item_no['211'] = {'area_no': 16, 'seat_amount': 9, 'start_no': 942}
-        item_no['208'] = {'area_no': 16, 'seat_amount': 9, 'start_no': 933}
+        item_no[211] = {'area_no': 16, 'seat_amount': 9, 'start_no': 942}
+        item_no[208] = {'area_no': 16, 'seat_amount': 9, 'start_no': 933}
         item_no['4'] = {'area_no': 34, 'seat_amount': 204, 'start_no': 2393}
+        """
         diff = abs(datetime.date.today() - datetime.date(2017, 11, 2)).days + date
-        if room not in item_no:
-            return -1
-        room_info = item_no[room]
-        segment = 87444 + diff + 731 * who_in.index(room_info['area_no'])
-        seat = room_info['start_no'] + int(seat)
-
+        index = self.room_ids.index(str(room))
+        segment = 87444 + diff + 731 * self.room_list.index(self.area_nos[index])
+        seat = int(self.start_nos[index]) + int(seat)
         self.url = 'http://seat.lib.bit.edu.cn/api.php/spaces/%s/book' % seat
         cookies = self.session.cookies.get_dict()
         self.post = {'access_token': cookies['access_token'], 'userid': cookies['userid'], 'segment': segment, 'type': 1}
@@ -86,6 +96,7 @@ class Book:
             d = json.loads(r.text[1:])
         try:
             ts = d['data']['_hash_']['expire']
+            # TypeError: 'NoneType' object is not subscriptable
             msg = d['msg']
             server_time = datetime.datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
             current_time = server_time - datetime.timedelta(hours = 1)
@@ -95,6 +106,8 @@ class Book:
             else:
                 return 1
         except KeyError:
+            return -2
+        except TypeError:
             return -2
 
     def index(self, first, second=-1):
@@ -124,6 +137,4 @@ class Book:
 
 
 if __name__ == '__main__':
-    test = Book('ljq').login()
-    test = test.prepare(311, 5, 1)
-    test.book()
+    test = Book('jzh')

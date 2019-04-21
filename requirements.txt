@@ -3,3 +3,4 @@ requests
 html5lib
 configparser
 datetime
+wxpy

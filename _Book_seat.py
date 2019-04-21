@@ -1,15 +1,14 @@
 from Book import Book
-from configparser import ConfigParser
+from General import General
 
-cfg = ConfigParser()
-cfg.read('.config.ini', encoding='utf8')
+cfg = General.get_config()[0]
 
 if __name__ == '__main__':
     target_user = cfg.get('_Book_seat', 'target_name')
-    book = Book(target_user).login()
+    book = Book(target_user)
     target_room = cfg.get('_Book_seat', 'target_room')
     target_seat = cfg.getint('_Book_seat', 'target_seat')
     date = cfg.getint('_Book_seat', 'date')
-    if date != 0: date = 1
     book = book.prepare(target_room, target_seat, date)
-    book.book()
+    while True:
+        book.book()
