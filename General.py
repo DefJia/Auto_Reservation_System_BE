@@ -38,4 +38,3 @@ class General:
 if __name__ == '__main__':
     a = General()
     a.get_config()
-

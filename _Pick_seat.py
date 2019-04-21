@@ -6,7 +6,6 @@ from General import General
 
 cfg = General.get_config()[0]
 
-
 if __name__ == '__main__':
     target_users = cfg.get('_Pick_seat', 'target_users').split(',')
     target_rooms = cfg.get('_Pick_seat', 'target_rooms').split(',')
