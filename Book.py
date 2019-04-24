@@ -6,7 +6,6 @@ from General import General
 
 configs = General.get_config()
 cfg_main = configs[0]
-cfg_advanced = configs[1]
 
 
 class Book:
@@ -81,7 +80,8 @@ class Book:
         """
         diff = abs(datetime.date.today() - datetime.date(2017, 11, 2)).days + date
         index = self.room_ids.index(str(room))
-        segment = 87444 + diff + 731 * self.room_list.index(self.area_nos[index])
+        segment = 61516 + diff + 731 * self.room_list.index(self.area_nos[index])
+        # 87444
         seat = int(self.start_nos[index]) + int(seat)
         self.url = 'http://seat.lib.bit.edu.cn/api.php/spaces/%s/book' % seat
         cookies = self.session.cookies.get_dict()
