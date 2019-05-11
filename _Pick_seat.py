@@ -12,16 +12,22 @@ if __name__ == '__main__':
     date = cfg.getint('_Pick_seat', 'date')
     sleep_second = cfg.getint('_Pick_seat', 'interval')
     cur = 0
-    while target_users:
+    while len(target_users):
         for room in target_rooms:
             query = Query(date, room)
             res = query.get_list()
             if res:
                 for elem in res:
-                    account = Book(target_users[0]).login()
+                    account = Book(target_users[0])
                     account.prepare(elem[0], elem[1], date)
                     account.book()
                     del target_users[0]
-            cur += 1
-            print('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
-            time.sleep(sleep_second)
+                    if not target_users:
+                        cur = -1
+                        break
+            if cur > 0:
+                cur += 1
+                print('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
+                time.sleep(sleep_second)
+            else:
+                break
