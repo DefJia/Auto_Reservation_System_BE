@@ -25,6 +25,8 @@ class Book:
         self.area_nos = self.cfg.get('Index', 'area_no').split(',')
         self.start_nos = self.cfg.get('Index', 'start_no').split(',')
         self.room_list = self.cfg.get('Index', 'room_list').split(',')
+        self.base_para = self.cfg.getint('Index', 'base_para')
+        self.delta_para = self.cfg.getint('Index', 'delta_para')
         # Get indexes
         self.username, self.password = self.index(username, password)
         self.session = requests.session()
@@ -80,8 +82,8 @@ class Book:
         """
         diff = abs(datetime.date.today() - datetime.date(2017, 11, 2)).days + date
         index = self.room_ids.index(str(room))
-        segment = 61516 + diff + 731 * self.room_list.index(self.area_nos[index])
-        # 87444
+        area_no = self.area_nos[index]
+        segment = self.base_para + diff + self.delta_para * self.room_list.index(area_no)
         seat = int(self.start_nos[index]) + int(seat)
         self.url = 'http://seat.lib.bit.edu.cn/api.php/spaces/%s/book' % seat
         cookies = self.session.cookies.get_dict()

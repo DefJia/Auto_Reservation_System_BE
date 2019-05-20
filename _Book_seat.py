@@ -10,5 +10,4 @@ if __name__ == '__main__':
     target_seat = cfg.getint('_Book_seat', 'target_seat')
     date = cfg.getint('_Book_seat', 'date')
     book = book.prepare(target_room, target_seat, date)
-    while True:
-        book.book()
+    book.book()
