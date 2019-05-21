@@ -25,7 +25,7 @@ if __name__ == '__main__':
                     if not target_users:
                         cur = -1
                         break
-            if cur > 0:
+            if cur >= 0:
                 cur += 1
                 print('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
                 time.sleep(sleep_second)
