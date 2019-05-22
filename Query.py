@@ -49,7 +49,7 @@ class Query:
                         # 可预约
                         if len(elem['name']) == 5:
                             # 形如311-A
-                            room_id = int(elem['name'][:3])
+                            room_id = elem['name'][:3]
                             seat_no = ord(elem['name'][-1]) - 64
                         else:
                             room_id = self.room_id

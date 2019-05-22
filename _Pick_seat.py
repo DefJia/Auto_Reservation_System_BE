@@ -3,6 +3,7 @@ from Query import Query
 import time
 from datetime import datetime
 from General import General
+from Notify import *
 
 cfg = General.get_config()[0]
 
@@ -18,16 +19,21 @@ if __name__ == '__main__':
             res = query.get_list()
             if res:
                 for elem in res:
-                    account = Book(target_users[0])
-                    account.prepare(elem[0], elem[1], date)
-                    account.book()
-                    del target_users[0]
-                    if not target_users:
-                        cur = -1
-                        break
+                    if elem[0] == room:
+                        account = Book(target_users[0])
+                        account.prepare(elem[0], elem[1], date)
+                        account.book()
+                        del target_users[0]
+                        if not target_users:
+                            cur = -1
+                            break
+                    else:
+                        text = format('提醒：%s次尚有有余票！' % elem[0])
+                        continuous_output(text)
             if cur >= 0:
                 cur += 1
-                print('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
+                text = format('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))
+                continuous_output(text)
                 time.sleep(sleep_second)
             else:
                 break
