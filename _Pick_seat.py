@@ -28,8 +28,9 @@ if __name__ == '__main__':
                             cur = -1
                             break
                     else:
-                        text = format('提醒：%s次尚有有余票！' % elem[0])
-                        continuous_output(text)
+                        pass
+                        # text = format('提醒：%s次尚有有余票！' % elem[0])
+                        # continuous_output(text)
             if cur >= 0:
                 cur += 1
                 text = format('第%d次查询，%s次列车无余票，时间%s...' % (cur, room, str(datetime.now())[:-7]))

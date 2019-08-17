@@ -30,7 +30,7 @@
 
     通用的方法。
 
-- [Maintain.py](../Advanced/Maintain.py)
+- Maintain.py
 
   - detect()
 
