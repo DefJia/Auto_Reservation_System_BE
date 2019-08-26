@@ -1,6 +1,11 @@
 from wxpy import *
 from configparser import ConfigParser
 from General import General
+from tkinter import Tk
+from tkinter.messagebox import showinfo
+import threading
+import pyaudio
+import wave
 
 cfg = General.get_config()[0]
 
@@ -12,6 +17,36 @@ def final_output(text):
     pwd = cfg.get('Notify', 'Password')
     to = cfg.get('Notify', 'Mail_to')
     mail = Mail(from_, pwd, to)
+
+def play_audio(filename):
+    CHUNK = 1024
+    wf = wave.open(filename, 'rb')
+    p = pyaudio.PyAudio()
+    stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
+                    channels=wf.getnchannels(),
+                    rate=wf.getframerate(),
+                    output=True)
+    data = wf.readframes(CHUNK)
+    while data != b'':
+        stream.write(data)
+        data = wf.readframes(CHUNK)
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+def play_audio_async(filename):
+    do_therad = threading.Thread(target=play_audio, args=[filename])
+    do_therad.start()
+
+def show_messagebox(text):
+    root = Tk()
+    root.withdraw()
+    showinfo(message = text)
+    root.destroy()
+
+def show_messagebox_async(text):
+    do_therad = threading.Thread(target=show_messagebox, args=[text])
+    do_therad.start()
 
 class Robot:
     def __init__(self):

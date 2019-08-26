@@ -4,3 +4,6 @@ html5lib
 configparser
 datetime
 wxpy
+tkinter
+pyaudio
+wave
