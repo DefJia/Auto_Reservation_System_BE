@@ -3,10 +3,10 @@ from Book import Book
 import datetime
 from General import General
 
-cfg = General.get_config()[0]
 
 if __name__ == '__main__':
     t = Time()
+    cfg = General.get_config()[0]
     type = cfg.getint('_Auto_book', 'type')
     if type in (0, 1):
         t.time_control(type)

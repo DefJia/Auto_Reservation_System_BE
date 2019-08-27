@@ -1,8 +1,7 @@
 .config.ini*
 test.*
-.idea/
+.*/
 __pycache__/
-test.py
 data/
 Advanced/
-.vscode/
+_Advanced_*.py

@@ -1,34 +1,29 @@
+from Advanced.Available import CheckAvailable
+from General import General
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
 from configparser import ConfigParser
-from General import General
-
-
-configs = General.get_config()
-cfg_main = configs[0]
 
 
 class Book:
     """
-        Description here.
+        预约类
     """
     def __init__(self, username, password=-1):
-        """
-            Description here.
-        """
-        self.cfg = cfg_main
-        self.init_url = self.cfg.get('Site_url', 'init_url')
-        self.login_url = self.cfg.get('Site_url', 'login_url')
-        self.seat_url = self.init_url + self.cfg.get('Site_url', 'seat_url')
+        configs = General.get_config()
+        self.cfg_main = configs[0]
+        self.init_url = self.cfg_main.get('Site_url', 'init_url')
+        self.login_url = self.cfg_main.get('Site_url', 'login_url')
+        self.seat_url = self.init_url + self.cfg_main.get('Site_url', 'seat_url')
         # Get urls
-        self.room_ids = self.cfg.get('Index', 'room_id').split(',')
-        self.area_nos = self.cfg.get('Index', 'area_no').split(',')
-        self.start_nos = self.cfg.get('Index', 'start_no').split(',')
-        self.room_list = self.cfg.get('Index', 'room_list').split(',')
-        self.base_para = self.cfg.getint('Index', 'base_para')
-        self.delta_para = self.cfg.getint('Index', 'delta_para')
+        self.room_ids = self.cfg_main.get('Index', 'room_id').split(',')
+        self.area_nos = self.cfg_main.get('Index', 'area_no').split(',')
+        self.start_nos = self.cfg_main.get('Index', 'start_no').split(',')
+        self.room_list = self.cfg_main.get('Index', 'room_list').split(',')
+        self.base_para = self.cfg_main.getint('Index', 'base_para')
+        self.delta_para = self.cfg_main.getint('Index', 'delta_para')
         # Get indexes
-        self.username, self.password = self.index(username, password)
+        self.username, self.password = General.index(username, password)
         self.session = requests.session()
         self.url = ''
         self.post = dict()
@@ -59,9 +54,6 @@ class Book:
         else:
             print("%s 登录失败 (%s)" % (current_time, self.username))
             return {}
-        # soup = BeautifulSoup(r.text, 'html5lib')
-        # url = self.login_url + soup.find('script').text[14:85]
-        # self.session.get(login)
 
     def prepare(self, room, seat, date):
         """
@@ -91,6 +83,9 @@ class Book:
         return self
 
     def book(self):
+        available = self.check_available()
+        if not available:
+            return -3
         r = self.session.post(self.url, params=self.post)
         try:
             d = json.loads(r.text)
@@ -112,30 +107,14 @@ class Book:
         except TypeError:
             return -2
 
-    def index(self, first, second=-1):
-        """
-        :param first:
-        :param second:
-        :return:
-        """
-        if second == -1:
-            if type(first) == str:
-                hash = self.cfg.get('Account', 'common_hash').split(',').index(first)
-                username = self.cfg.get('Account', 'commonu').split(',')[hash]
-                password = self.cfg.get('Account', 'commonp').split(',')[hash]
-                return username, password
-            else:
-                zombieu = self.cfg.get('Account', 'zombieu').split(',')
-                zombiep = self.cfg.get('Account', 'zombiep').split(',')
-                if first < 0:
-                    first = 0
-                elif first >= min(len(zombieu), len(zombiep)):
-                    first = min(len(zombieu), len(zombiep))
-                username = zombieu[first]
-                password = zombiep[first]
-                return username, password
+    def check_available(self):
+        sections = self.cfg_main.sections()
+        if 'Others' in sections and self.cfg_main.get('Others', 'HasAdvanced') == 'True':
+            cur = CheckAvailable(self.username)
+            a = cur.set_available() if not cur.is_available() else True
+            return a
         else:
-            return first, second
+            return True
 
 
 if __name__ == '__main__':
