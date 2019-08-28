@@ -1,4 +1,3 @@
-from Advanced.Available import CheckAvailable
 from General import General
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
@@ -110,6 +109,7 @@ class Book:
     def check_available(self):
         sections = self.cfg_main.sections()
         if 'Others' in sections and self.cfg_main.get('Others', 'HasAdvanced') == 'True':
+            from Advanced.Available import CheckAvailable
             cur = CheckAvailable(self.username)
             a = cur.set_available() if not cur.is_available() else True
             return a
