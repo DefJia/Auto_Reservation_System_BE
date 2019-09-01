@@ -98,6 +98,7 @@ class Book:
             current_time = server_time - datetime.timedelta(hours = 1)
             print("%s %s" % (str(current_time), msg))
             if '预约失败' in msg:
+                # 这里有两种 一种是此空间已经被预约/行程冲突 一种是时间未到
                 return 2
             else:
                 return 1
