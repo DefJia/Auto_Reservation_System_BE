@@ -11,15 +11,15 @@ class General:
         env = platform.system()
         split_sign = '\\' if env == 'Windows' else '/'
         cwd_raw = os.getcwd()
-        cfg = ConfigParser()
-        cfg.read(cwd_raw + split_sign + '.config.ini', encoding='utf-8')
         cwd_lst = cwd_raw.split(split_sign)
-        config_lst.append(cfg)
-        if cwd_lst[-1] == 'Advanced':
-            cwd_root = cwd_raw[:-(len(cwd_lst[-1])+1)]
-            cfg = ConfigParser()
-            cfg.read(cwd_root + split_sign + '.config.ini', encoding='utf-8')
-            config_lst = [cfg] + config_lst
+        cwd_root = cwd_raw[:-(len(cwd_lst[-1])+1)] if cwd_lst[-1] == 'Advanced' else cwd_raw
+        cfg = ConfigParser()
+        cfg.read(cwd_root + split_sign + '.config.ini', encoding='utf-8')
+        config_lst.append(cfg)  # 根目录下config
+        hasAdvanced = cfg.getboolean('Others', 'HasAdvanced')
+        if hasAdvanced:
+            cfg.read(cwd_root + split_sign + 'Advanced' + split_sign + '.config.ini', encoding='utf-8')
+            config_lst.append(cfg)  # Advanced文件夹下config
         return config_lst
 
     @staticmethod

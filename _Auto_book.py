@@ -2,17 +2,23 @@ from Time import Time
 from Book import Book
 import datetime
 from General import General
+from Notify import Output
 
 
 if __name__ == '__main__':
+    method_name = '_Auto_book'
     cfg = General.get_config()[0]
-    type = cfg.getint('_Auto_book', 'type')
-    target_name = cfg.get('_Auto_book', 'target_name')
-    target_room = cfg.get('_Auto_book', 'target_room')
-    target_seat = cfg.getint('_Auto_book', 'target_seat')
-    max_try_times = cfg.getint('_Auto_book', 'max_try_times')
-    date = 0 if type in (1, 2) else 1
+    notify_type = cfg.get(method_name, 'notify_type')
+    type = cfg.getint(method_name, 'type')
+    target_name = cfg.get(method_name, 'target_name')
+    target_room = cfg.get(method_name, 'target_room')
+    target_seat = cfg.getint(method_name, 'target_seat')
+    max_try_times = cfg.getint(method_name, 'max_try_times')
+
+    output = Output()
     t = Time()
+
+    date = 0 if type in (1, 2) else 1
     if type in (0, 1): t.time_control(type)  # 时间控制
     b = Book(target_name).prepare(target_room, target_seat, date)
     flag = 0  # 是否预约成功
