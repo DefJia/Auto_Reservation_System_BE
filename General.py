@@ -37,7 +37,7 @@ class General:
         cfg = General.get_config()
         cfg_main = cfg[0]
         if second == -1:
-            if type(first) == str:
+            if type(first) == str and not first.isdigit():
                 # 第一种情况
                 hash = cfg_main.get('Account', 'common_hash').split(',').index(first)
                 username = cfg_main.get('Account', 'commonu').split(',')[hash]
@@ -46,6 +46,7 @@ class General:
             else:
                 zombieu = cfg_main.get('Account', 'zombieu').split(',')
                 zombiep = cfg_main.get('Account', 'zombiep').split(',')
+                first = int(first)
                 if first < 0:
                     first = 0
                 elif first >= min(len(zombieu), len(zombiep)):
