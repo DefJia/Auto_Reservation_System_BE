@@ -18,12 +18,16 @@ if __name__ == '__main__':
     output = Output()
     t = Time()
 
-    date = 0 if type in (1, 2) else 1
-    if type in (0, 1): t.time_control(type)  # 时间控制
-    b = Book(target_name).prepare(target_room, target_seat, date)
-    flag = 0  # 是否预约成功
-    cnt = 0  # 发送请求次数
-    while flag != 1 and cnt < max_try_times:
-        flag = b.book()
-        print(datetime.datetime.now())
-        cnt += 1
+    while True:
+        date = 0 if type in (1, 2) else 1
+        if type in (0, 1): t.time_control(type)  # 时间控制
+        b = Book(target_name).prepare(target_room, target_seat, date)
+        flag = 0  # 是否预约成功
+        cnt = 0  # 发送请求次数 
+        while flag != 1 and cnt < max_try_times:
+            flag = b.book()
+            cnt += 1
+            # current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # output.continuous_output(current_time)
+        text = format('预约成功')
+        output.final_output(text, notify_type)

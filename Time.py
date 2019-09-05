@@ -31,10 +31,12 @@ class Time:
         start_seconds = self.cfg.getint('Time', 'advanced_second_to_book')
         while True:
             if self.cal_seconds(0, (hour, minute), prepare_seconds):
+                # 本地时间符合之后，开始验证服务器时间
                 while not self.cal_seconds(1, (hour, minute), start_seconds):
                     time.sleep(interval_seconds)
                 return 0
             else:
+                # 本地时间不符合，则继续等待
                 time.sleep(interval_seconds)
 
     def cal_seconds(self, time_type, target_time, target_delta_seconds):
