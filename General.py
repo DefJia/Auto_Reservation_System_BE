@@ -43,6 +43,8 @@ class General:
                 username = cfg_main.get('Account', 'commonu').split(',')[hash]
                 password = cfg_main.get('Account', 'commonp').split(',')[hash]
                 return username, password
+            elif type(first) == str and len(first) == 10:
+                return first, None
             else:
                 zombieu = cfg_main.get('Account', 'zombieu').split(',')
                 zombiep = cfg_main.get('Account', 'zombiep').split(',')
