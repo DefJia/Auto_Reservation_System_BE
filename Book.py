@@ -71,7 +71,7 @@ class Book:
         item_no[208] = {'area_no': 16, 'seat_amount': 9, 'start_no': 933}
         item_no['4'] = {'area_no': 34, 'seat_amount': 204, 'start_no': 2393}
         """
-        diff = abs(datetime.date.today() - datetime.date(2017, 11, 2)).days + date
+        diff = abs(datetime.date.today() - datetime.date(2017, 11, 2)).days + int(date)
         index = self.room_ids.index(str(room))
         area_no = self.area_nos[index]
         segment = self.base_para + diff + self.delta_para * self.room_list.index(area_no)
@@ -93,18 +93,16 @@ class Book:
         try:
             ts = d['data']['_hash_']['expire']
             # TypeError: 'NoneType' object is not subscriptable
-            msg = d['msg']
             server_time = datetime.datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
             current_time = server_time - datetime.timedelta(hours = 1)
+            msg = d['msg']
             print("%s %s" % (str(current_time), msg))
-            if '预约失败' in msg:
-                # 这里有两种 一种是此空间已经被预约/行程冲突 一种是时间未到
-                return 2
-            else:
-                return 1
-        except KeyError:
-            return -2
-        except TypeError:
+            return d['status']
+            # 这里有两种 一种是此空间已经被预约/行程冲突 一种是时间未到
+            # status == 1 预约成功
+            # status == 0 已经被预约/行程冲突
+            # status == -1 时间未到
+        except:
             return -2
 
     def check_available(self):
@@ -120,3 +118,5 @@ class Book:
 
 if __name__ == '__main__':
     test = Book('jzh')
+    test.prepare('ns1', '1', '1')
+    test.book()

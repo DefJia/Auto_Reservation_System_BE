@@ -17,4 +17,7 @@ if __name__ == '__main__':
     for i in range(min(len(target_rooms), len(target_seats), len(target_users))):
         book = Book(target_users[i])
         book = book.prepare(target_rooms[i], target_seats[i], date)
-        book.book()
+        res = book.book()
+        while res < 0:
+            res = book.book()
+        
