@@ -53,7 +53,7 @@ class Time:
         current_second = current_time.second
         current_seconds = current_hour * 3600 + current_minute * 60 + current_second
         current_delta_second = target_seconds - current_seconds
-        print('模式%d, 时间差%d' % (time_type, current_delta_second))
+        # print('模式%d, 时间差%d' % (time_type, current_delta_second))
         return True if 0 <= current_delta_second <= target_delta_seconds else False
 
     @staticmethod

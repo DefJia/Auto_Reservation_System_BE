@@ -18,6 +18,6 @@ if __name__ == '__main__':
         book = Book(target_users[i])
         book = book.prepare(target_rooms[i], target_seats[i], date)
         res = book.book()
-        while res < 0:
+        while res != 1:
             res = book.book()
         

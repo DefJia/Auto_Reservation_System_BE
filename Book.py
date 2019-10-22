@@ -97,6 +97,7 @@ class Book:
             current_time = server_time - datetime.timedelta(hours = 1)
             msg = d['msg']
             print("%s %s" % (str(current_time), msg))
+            if '时间' in msg: d['status'] = -1
             return d['status']
             # 这里有两种 一种是此空间已经被预约/行程冲突 一种是时间未到
             # status == 1 预约成功
@@ -118,5 +119,5 @@ class Book:
 
 if __name__ == '__main__':
     test = Book('jzh')
-    test.prepare('ns1', '1', '1')
-    test.book()
+    # test.prepare('ns1', '1', '1')
+    # test.book()
