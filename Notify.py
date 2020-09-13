@@ -20,7 +20,7 @@ class Output:
 
     @staticmethod
     def final_output(text, type):
-        type = cfg_main.get('Notify', 'Type') if type == '' else type
+        type = cfg_main.get('Notify', 'Type') if type == '' else str(type)
         if '1' in type:
             mail = Mail(text, text)
             mail.send()

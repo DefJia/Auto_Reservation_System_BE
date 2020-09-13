@@ -1,7 +1,6 @@
 from General import General
 import requests, time, datetime, json
 from bs4 import BeautifulSoup
-from configparser import ConfigParser
 
 
 class Book:
@@ -118,6 +117,6 @@ class Book:
 
 
 if __name__ == '__main__':
-    test = Book('jzh')
-    # test.prepare('ns1', '1', '1')
-    # test.book()
+    test = Book('ldh')
+    test.prepare('211', '1', '1')
+    test.book()
