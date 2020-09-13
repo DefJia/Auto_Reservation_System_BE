@@ -1,6 +1,6 @@
-from wxpy import *
-from configparser import ConfigParser
 from General import General
+import wxpy
+from configparser import ConfigParser
 from tkinter import Tk
 from tkinter.messagebox import showinfo
 import threading
@@ -19,13 +19,22 @@ class Output:
         print(text)
 
     @staticmethod
-    def final_output(text):
-        pass
+    def final_output(text, type):
+        type = cfg_main.get('Notify', 'Type') if type == '' else type
+        if '1' in type:
+            mail = Mail(text, text)
+            mail.send()
+        elif '4' in type:
+            music = Music()
+            music.play_audio_async()
+        elif '5' in type:
+            message_box = Massage_box(text)
+            message_box.show_messagebox_async()
 
 
 class Music:
     def __init__(self):
-        self.filepath = cfg_main.get('Notify', 'music_path')
+        self.filepath = cfg_main.get('Notify', 'Music_path')
 
     def play_audio(self):
         CHUNK = 1024
@@ -49,7 +58,7 @@ class Music:
 
 
 class Massage_box:
-    def __init__(self, text):
+    def __init__(self, text=''):
         self.text = text
         
     def show_messagebox(self):
@@ -65,10 +74,8 @@ class Massage_box:
 
 class Wechat:
     def __init__(self):
-        self.cfg = ConfigParser()
-        self.cfg.read('.config.ini', encoding='utf8')
         try:
-            self.bot = Bot(cache_path=True, console_qr=2)
+            self.bot = wxpy.Bot(cache_path=True, console_qr=2)
         except:
             print('此账号已被列入黑名单，无法登陆！')
 
@@ -79,9 +86,9 @@ class Wechat:
 
 class Mail:
     def __init__(self, subject, context):
-        self.from_ = cfg_main.get('Notify', 'Mail_from')
+        self.from_ = cfg_main.get('Notify', 'Sender')
         self.pwd = cfg_main.get('Notify', 'Password')
-        self.to = cfg_main.get('Notify', 'Mail_to').split(',')
+        self.to = cfg_main.get('Notify', 'Reciever').split(',')
         self.subject = subject
         self.context = context
     
@@ -97,9 +104,9 @@ class Mail:
             smtpObj.login(self.from_, self.pwd)
             smtpObj.sendmail(self.from_, self.to, message.as_string())
             smtpObj.quit() 
-            print('success')
+            print('邮件发送成功！')
         except smtplib.SMTPException as e:
-            print('error',e) 
+            print('邮件发送失败！',e) 
         
     
 if __name__ == '__main__':

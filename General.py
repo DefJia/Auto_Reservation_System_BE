@@ -11,15 +11,15 @@ class General:
         env = platform.system()
         split_sign = '\\' if env == 'Windows' else '/'
         cwd_raw = os.getcwd()
-        cfg = ConfigParser()
-        cfg.read(cwd_raw + split_sign + '.config.ini', encoding='utf-8')
         cwd_lst = cwd_raw.split(split_sign)
-        config_lst.append(cfg)
-        if cwd_lst[-1] == 'Advanced':
-            cwd_root = cwd_raw[:-(len(cwd_lst[-1])+1)]
-            cfg = ConfigParser()
-            cfg.read(cwd_root + split_sign + '.config.ini', encoding='utf-8')
-            config_lst = [cfg] + config_lst
+        cwd_root = cwd_raw[:-(len(cwd_lst[-1])+1)] if cwd_lst[-1] == 'Advanced' else cwd_raw
+        cfg = ConfigParser()
+        cfg.read(cwd_root + split_sign + '.config.ini', encoding='utf-8')
+        config_lst.append(cfg)  # 根目录下config
+        hasAdvanced = cfg.getboolean('Others', 'HasAdvanced')
+        if hasAdvanced:
+            cfg.read(cwd_root + split_sign + 'Advanced' + split_sign + '.config.ini', encoding='utf-8')
+            config_lst.append(cfg)  # Advanced文件夹下config
         return config_lst
 
     @staticmethod
@@ -37,15 +37,18 @@ class General:
         cfg = General.get_config()
         cfg_main = cfg[0]
         if second == -1:
-            if type(first) == str:
+            if type(first) == str and not first.isdigit():
                 # 第一种情况
                 hash = cfg_main.get('Account', 'common_hash').split(',').index(first)
                 username = cfg_main.get('Account', 'commonu').split(',')[hash]
                 password = cfg_main.get('Account', 'commonp').split(',')[hash]
                 return username, password
+            elif type(first) == str and len(first) == 10:
+                return first, None
             else:
                 zombieu = cfg_main.get('Account', 'zombieu').split(',')
                 zombiep = cfg_main.get('Account', 'zombiep').split(',')
+                first = int(first)
                 if first < 0:
                     first = 0
                 elif first >= min(len(zombieu), len(zombiep)):

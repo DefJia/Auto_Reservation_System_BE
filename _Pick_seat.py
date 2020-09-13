@@ -3,19 +3,19 @@ from Query import Query
 import time
 from datetime import datetime
 from General import General
-from Notify import Music, Massage_box, Output
+from Notify import Output
 
 
 if __name__ == '__main__':
+    method_name = '_Pick_seat'
     cfg = General.get_config()[0]
+    notify_type = cfg.get(method_name, 'notify_type')
     output = Output()
-    music = Music()
-    message_box = Massage_box('')
 
     search = {'X':0, 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9}
     all = range(1,10)
-    target_users = cfg.get('_Pick_seat', 'target_users').split(',')
-    target_rooms = cfg.get('_Pick_seat', 'target_rooms').split(',')
+    target_users = cfg.get(method_name, 'target_users').split(',')
+    target_rooms = cfg.get(method_name, 'target_rooms').split(',')
     ori_seat = [(x.split('-')[0],search[x.split('-')[1]]) for x in target_rooms]
     target_seat = ori_seat.copy()
     for elem in ori_seat:
@@ -24,11 +24,9 @@ if __name__ == '__main__':
                 target_seat.append((elem[0],i))
     target_seat = list(set([x for x in target_seat if x[1]!= 0]))
                 
-    date = cfg.getint('_Pick_seat', 'date')
-    sleep_second = cfg.getint('_Pick_seat', 'interval')
+    date = cfg.getint(method_name, 'date')
+    sleep_second = cfg.getint(method_name, 'interval')
 
-    use_music = cfg.getboolean('Notify', 'use_music')
-    use_messagebox = cfg.getboolean('Notify', 'use_messagebox')
     cur = 0
     while len(target_users) and len(target_seat):
         try:
@@ -57,12 +55,10 @@ if __name__ == '__main__':
                         account.prepare(room_id, seat_id, date)
                         account.book()
                         
-                        text = format('%s-%s次车，下单成功，下单用户%s' % (room_id, seat_id, target_users[0]) )
-                        if use_music:
-                            music.play_audio_async()
-                        if use_messagebox:
-                            message_box.text = text
-                            message_box.show_messagebox_async()
+                        text = format('%s-%s次车，下单成功，下单用户%s' % (room_id, seat_id, target_users[0]))
+                        output.final_output(text, notify_type)
+
+                        
                         output.continuous_output(text)
 
                         # 删除该用户&预约座位&查询
