@@ -74,6 +74,8 @@ class Book:
         index = self.room_ids.index(str(room))
         area_no = self.area_nos[index]
         segment = self.base_para + diff + self.delta_para * self.room_list.index(area_no)
+        if area_no == '16':
+            segment += 75412
         seat = int(self.start_nos[index]) + int(seat)
         self.url = 'http://seat.lib.bit.edu.cn/api.php/spaces/%s/book' % seat
         cookies = self.session.cookies.get_dict()
