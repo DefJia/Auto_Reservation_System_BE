@@ -83,7 +83,7 @@ class Book:
     def book(self):
         available = self.check_available()
         if not available:
-            return -3
+            return -3   
         r = self.session.post(self.url, params=self.post)
         try:
             d = json.loads(r.text)
