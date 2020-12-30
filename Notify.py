@@ -1,5 +1,4 @@
 from General import General
-import wxpy
 from configparser import ConfigParser
 from tkinter import Tk
 from tkinter.messagebox import showinfo
@@ -70,18 +69,6 @@ class Massage_box:
     def show_messagebox_async(self):
         do_therad = threading.Thread(target=self.show_messagebox)
         do_therad.start()
-
-
-class Wechat:
-    def __init__(self):
-        try:
-            self.bot = wxpy.Bot(cache_path=True, console_qr=2)
-        except:
-            print('此账号已被列入黑名单，无法登陆！')
-
-    # @self.bot.register(my_friend)
-    # def reply_my_friend(self):
-        # return 'received: {} ({})'.format(msg.text, msg.type)
 
 
 class Mail:
