@@ -34,7 +34,7 @@ class Book:
         """
         self.session.get(self.init_url)
         r = self.session.get(self.login_url)
-        soup = BeautifulSoup(r.text, 'html5lib')
+        soup = BeautifulSoup(r.text, 'html.parser')
         data = dict()
         data['username'] = self.username
         data['password'] = self.password
@@ -42,7 +42,7 @@ class Book:
             data[elem.attrs['name']] = elem.attrs['value']
         self.session.post(self.login_url, params=data)
         r = self.session.get(self.seat_url)
-        soup = BeautifulSoup(r.text, 'html5lib')
+        soup = BeautifulSoup(r.text, 'html.parser')
         login_url3 = self.init_url + soup.find('script').text[14:85]
         r = self.session.get(login_url3)
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -11,9 +11,9 @@ class Query:
 
     def __init__(self, date, room_id):
         """
-        :param date: 0 -> today, 1 -> tomorrow
-        :param room_id: 211, 308, 311, 208
-        :return code, list -> when code > 0, which means code = len(list), query results.
+            :param date: 0 -> today, 1 -> tomorrow
+            :param room_id: 211, 308, 311, 208
+            :return code, list -> when code > 0, which means code = len(list), query results.
         """
         self.cfg = ConfigParser()
         self.cfg.read('.config.ini', encoding='utf8')
@@ -26,14 +26,14 @@ class Query:
         self.res = list()
 
     def get_list(self):
-        url = 'http://10.1.123.155/api.php/spaces_old'
+        url = 'http://seat.lib.bit.edu.cn/api.php/spaces_old'
         params = {'area': self.area_no, 'endTime': '22:40'}
         time_ = datetime.datetime.now() + datetime.timedelta(days=self.date)
         params['day'] = time_.strftime('%Y-%m-%d')
         params['startTime'] = '8:00' if self.date > 0 or datetime.datetime.now().hour < 8 else time_.strftime('%H:%M')
         # The next day or 8:00am before the current day -> 8:00
         try:
-            r = requests.get(url, params = params)
+            r = requests.get(url, params=params)
         except:
             return None
         d = None

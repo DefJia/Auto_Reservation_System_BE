@@ -1,8 +1,11 @@
-.config.ini*
+venv/
+__pycache__/
+
+*.txt
 test.*
 .*/
-__pycache__/
-data/
+
 Advanced/
 _Advanced_*.py
-*.txt
+data/
+.config.ini*
